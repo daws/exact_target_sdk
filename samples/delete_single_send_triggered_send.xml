@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <SOAP-ENV:Header>
+  <wsse:Security
+   xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+     xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+   <wsu:Timestamp>
+    <wsu:Created>2011-02-10T22:44:54Z</wsu:Created>
+    <wsu:Expires>2011-02-10T22:49:54Z</wsu:Expires>
+   </wsu:Timestamp>
+   <wsse:UsernameToken>
+    <wsse:Username>*********</wsse:Username>
+    <wsse:Password
+   Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">
+   ********</wsse:Password>
+    <wsse:Nonce>2zaUu7uBj/4iJ9z0Bh5jpa4heGI=</wsse:Nonce>
+    <wsu:Created>2011-02-10T22:44:54Z</wsu:Created>
+   </wsse:UsernameToken>
+  </wsse:Security>
+ </SOAP-ENV:Header>
+ <SOAP-ENV:Body>
+  <DeleteRequest
+    xmlns="http://exacttarget.com/wsdl/partnerAPI">
+   <Options/>
+   <ns1:Objects
+    xmlns:ns1="http://exacttarget.com/wsdl/partnerAPI"
+     xsi:type="ns1:SMSTriggeredSendDefinition">
+    <ns1:ModifiedDate
+     xsi:nil="true"/>
+    <ns1:ObjectID xsi:nil="true"/>
+    <ns1:CustomerKey>12345</ns1:CustomerKey>
+   </ns1:Objects>
+  </DeleteRequest>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

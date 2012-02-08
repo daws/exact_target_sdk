@@ -1,0 +1,6 @@
+= ExactTarget SDK
+
+== Version 0.0.0
+* Initial release
+* Supports Create method
+* Supports Subscriber and TriggeredSend objects, allowing subscribers to be created and triggered emails to be sent to them

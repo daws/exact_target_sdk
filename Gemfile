@@ -1,0 +1,14 @@
+source 'http://rubygems.org'
+
+gem 'activemodel', '~> 3.1'
+gem 'guid', '~> 0.1'
+gem 'savon', '~> 0.9'
+
+group :rake do
+  gem 'simple_gem', :require => 'tasks/simple_gem'
+end
+
+group :test do
+  gem 'rspec', '~> 2.8'
+end
+

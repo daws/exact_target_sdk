@@ -1,0 +1,36 @@
+= ExactTarget SDK
+
+An object-oriented wrapper for the ExactTarget SOAP API.
+
+The ExactTarget web service guide can be viewed here:
+http://docs.code.exacttarget.com/020_Web_Service_Guide
+
+With few exceptions, ruby conventions for capitalization are ignored and those
+outlined in the guide linked above are used. This is done in an attempt to be
+as transparent as possible, so that the API may be used by referring only to
+the guide linked above.
+
+Note this SDK is currently very incomplete, allowing you only to create
+subscribers and trigger sends. The framework is in place, however, to very
+easily implement new objects by simply declaring their properties.
+
+== Synopsis:
+
+ ExactTargetSDK.config(:username => 'foo', :password => 'mypass')
+
+ client = ExactTargetSDK::Client.new
+ definition = TriggeredSendDefinition.new('CustomerKey' => 'my_triggered_send')
+ subscriber = Subscriber.new('EmailAddress' => 'me@example.com')
+ triggered_send = TriggeredSend.new('TriggeredSendDefinition' => definition)
+ triggered_send.subscribers << subscriber
+
+ # Creates subscriber record, then executes the "my_triggered_send" trigger to
+ # that subscriber.
+ response = client.Create(subscriber, triggered_send)
+
+ puts "response status: #{response.OverallStatus}"
+ response.Results.each do |result|
+   puts "result..."
+   puts "  result code: #{result.StatusCode}"
+   puts "  result message: #{result.StatusMessage}"
+ end

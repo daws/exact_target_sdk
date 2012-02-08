@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <SOAP-ENV:Header>
+  <wsse:Security
+   xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+     xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+   <wsu:Timestamp>
+    <wsu:Created>2011-02-09T18:41:51Z</wsu:Created>
+    <wsu:Expires>2011-02-09T18:46:51Z</wsu:Expires>
+   </wsu:Timestamp>
+   <wsse:UsernameToken>
+    <wsse:Username>*********</wsse:Username>
+    <wsse:Password
+   Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">
+   *******</wsse:Password>
+    <wsse:Nonce>1/KXK8v+VI4kPlhgx2MecUjLuhI=</wsse:Nonce>
+    <wsu:Created>2011-02-09T18:41:51Z</wsu:Created>
+   </wsse:UsernameToken>
+  </wsse:Security>
+ </SOAP-ENV:Header>
+ <SOAP-ENV:Body>
+  <UpdateRequest
+    xmlns="http://exacttarget.com/wsdl/partnerAPI">
+   <Options/>
+   <ns1:Objects
+    xmlns:ns1="http://exacttarget.com/wsdl/partnerAPI"
+     xsi:type="ns1:SendEmailMOKeyword">
+    <ns1:ModifiedDate
+     xsi:nil="true"/>
+    <ns1:ObjectID
+      xsi:nil="true"/>
+    <ns1:CustomerKey>SendEmailAction</ns1:CustomerKey>
+    <ns1:IsDefaultKeyword>true</ns1:IsDefaultKeyword>
+    <ns1:SuccessMessage>This is a changed success message</ns1:SuccessMessage>
+    <ns1:MissingEmailMessage>This is a changed Missing Email Message</ns1:MissingEmailMessage>
+    <ns1:FailureMessage>This is a changed failure message</ns1:FailureMessage>
+    <ns1:TriggeredSend>
+     <ns1:ModifiedDate
+      xsi:nil="true"/>
+     <ns1:ObjectID xsi:nil="true"/>
+     <ns1:CustomerKey>238</ns1:CustomerKey>
+    </ns1:TriggeredSend>
+   </ns1:Objects>
+  </UpdateRequest>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
