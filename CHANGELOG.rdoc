@@ -1,5 +1,11 @@
 = ExactTarget SDK
 
+== Version 0.0.2
+* Adding thorough unit tests throughout
+* Using ActiveModel::Callbacks instead of home-baked before_validation
+* Adding UnknownError class to handle all unexpected exceptions
+* Fixing bug where properties that were simple strings or numbers were not rendered properly
+
 == Version 0.0.1
 * Fixing improperly tested bugs limiting basic functionality
 * Adding to README
