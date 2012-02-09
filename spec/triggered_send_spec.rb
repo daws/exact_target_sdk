@@ -10,4 +10,12 @@ describe TriggeredSend do
 
   end
 
+  context 'a TriggeredSend with a TriggeredSendDefinition set' do
+
+    subject { TriggeredSend.new 'TriggeredSendDefinition' => 'abc' }
+
+    it { should be_valid }
+
+  end
+
 end

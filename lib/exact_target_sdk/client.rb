@@ -64,6 +64,10 @@ class Client
     CreateResponse.new(response)
   end
 
+  def logger
+    config[:logger]
+  end
+
   private
 
   attr_accessor :config, :client
@@ -129,9 +133,11 @@ class Client
 
       response
     rescue ::Timeout::Error => e
-      timeout = ::ExactTargetSDK::Timeout.new("#{e.message}; open_timeout: #{config[:open_timeout]}; read_timeout: #{config[:read_timeout]}")
+      timeout = ::ExactTargetSDK::TimeoutError.new("#{e.message}; open_timeout: #{config[:open_timeout]}; read_timeout: #{config[:read_timeout]}")
       timeout.set_backtrace(e.backtrace)
       raise timeout
+    rescue Exception => e
+      raise ::ExactTargetSDK::UnknownError, e
     end
   end
 

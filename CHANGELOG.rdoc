@@ -1,5 +1,9 @@
 = ExactTarget SDK
 
+== Version 0.0.1
+* Fixing improperly tested bugs limiting basic functionality
+* Adding to README
+
 == Version 0.0.0
 * Initial release
 * Supports Create method

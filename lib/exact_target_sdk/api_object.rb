@@ -9,6 +9,7 @@ module ExactTargetSDK
 class APIObject
 
   include ::ActiveModel::Validations
+  include ::ActiveModel::Validations::Callbacks
 
   class << self
 
@@ -63,20 +64,9 @@ class APIObject
       validates name.to_sym, :numericality => { :allow_nil => true, :only_integer => true }
     end
 
-    # Takes one or more method names as symbols, and executes them in order
-    # before validation occurs on this object.
-    def before_validation(*args)
-      before_validation_methods.concat(args)
-    end
-
     # Returns an array of all registered properties.
     def properties
       @properties || []
-    end
-
-    # Returns the method names declared using #before_validation.
-    def before_validation_methods
-      @before_validation_methods ||= []
     end
 
     private
@@ -108,11 +98,10 @@ class APIObject
 
   # By default, runs validation and executes #render_properties!.
   #
-  # If overridden, the child class should execute the before_validation
-  # methods, check wehter or not the object is valid, and then render
-  # the object.
+  # If overridden, the child class should check wehter or not the
+  # object is valid, and then render the object. In general,
+  # the render_properties! method should be overridden instead.
   def render!(xml)
-    self.class.before_validation_methods.each { |method| self.send(method) }
     raise(InvalidAPIObject, self) if invalid?
     render_properties!(xml)
   end
@@ -124,22 +113,22 @@ class APIObject
   def render_properties!(xml)
     self.class.properties.each do |property|
       next unless instance_variable_get("@_set_#{property}")
-
       property_value = self.send(property)
+      render_property!(property, property_value, xml)
+    end
+  end
 
-      if property_value.is_a?(APIObject)
-        xml.__send__(property) do
-          property_value.render!(xml)
-        end
-      elsif property_value.is_a?(Array)
-        property_value.each do |current|
-          xml.__send__(property) do
-            current.render!(xml)
-          end
-        end
-      else
-        xml.__send__(property, property_value)
+  def render_property!(property_name, property_value, xml)
+    if property_value.is_a?(APIObject)
+      xml.__send__(property_name) do
+        property_value.render!(xml)
       end
+    elsif property_value.is_a?(Array)
+      property_value.each do |current|
+        render_property!(property_name, current, xml)
+      end
+    else
+      xml.__send__(property_name, property_value.to_s)
     end
   end
 

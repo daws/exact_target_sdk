@@ -13,7 +13,16 @@ class SOAPFault < Error
 end
 
 # Indicates the open or read timeouts were reached
-class Timeout < Error
+class TimeoutError < Error
+end
+
+# Indicates any type of unexpected error
+class UnknownError < Error
+  attr_reader :wrapped_exception
+
+  def initialize(e)
+    @wrapped_exception = e
+  end
 end
 
 # Indicates validation failed on an APIObject, which is referenced

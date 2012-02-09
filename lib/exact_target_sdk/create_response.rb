@@ -8,6 +8,7 @@ class CreateResponse
     @OverallStatus = response[:overall_status]
     @RequestID = response[:request_id]
     @Results = []
+
     results = if response[:results].is_a? Array
       response[:results]
     elsif response[:results].is_a? Hash
