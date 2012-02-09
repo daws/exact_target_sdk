@@ -74,12 +74,12 @@ class APIObject
       @properties || []
     end
 
-    private
-
     # Returns the method names declared using #before_validation.
     def before_validation_methods
       @before_validation_methods ||= []
     end
+
+    private
 
     # Stores the given property name to be used at render time.
     def register_property!(name)

@@ -128,7 +128,7 @@ class Client
       end
 
       response
-    rescue Timeout::Error => e
+    rescue ::Timeout::Error => e
       timeout = ::ExactTargetSDK::Timeout.new("#{e.message}; open_timeout: #{config[:open_timeout]}; read_timeout: #{config[:read_timeout]}")
       timeout.set_backtrace(e.backtrace)
       raise timeout

@@ -19,9 +19,9 @@ easily implement new objects by simply declaring their properties.
  ExactTargetSDK.config(:username => 'foo', :password => 'mypass')
 
  client = ExactTargetSDK::Client.new
- definition = TriggeredSendDefinition.new('CustomerKey' => 'my_triggered_send')
- subscriber = Subscriber.new('EmailAddress' => 'me@example.com')
- triggered_send = TriggeredSend.new('TriggeredSendDefinition' => definition)
+ definition = ExactTargetSDK::TriggeredSendDefinition.new('CustomerKey' => 'my_triggered_send')
+ subscriber = ExactTargetSDK::Subscriber.new('EmailAddress' => 'me@example.com')
+ triggered_send = ExactTargetSDK::TriggeredSend.new('TriggeredSendDefinition' => definition)
  triggered_send.subscribers << subscriber
 
  # Creates subscriber record, then executes the "my_triggered_send" trigger to
