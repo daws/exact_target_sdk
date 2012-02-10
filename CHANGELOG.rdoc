@@ -1,5 +1,8 @@
 = ExactTarget SDK
 
+== Version 0.1.0
+* Adding ErrorCode to CreateResult
+
 == Version 0.0.2
 * Adding thorough unit tests throughout
 * Using ActiveModel::Callbacks instead of home-baked before_validation
