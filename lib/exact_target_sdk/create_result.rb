@@ -1,11 +1,22 @@
+require 'active_support/inflector'
+
 module ExactTargetSDK
 class CreateResult
 
-  attr_reader :StatusCode, :StatusMessage
+  PROPERTIES = [
+    'StatusCode',
+    'StatusMessage',
+    'ErrorCode'
+  ]
+
+  PROPERTIES.each do |property|
+    attr_reader property
+  end
 
   def initialize(hash)
-    @StatusCode = hash[:status_code]
-    @StatusMessage = hash[:status_message]
+    PROPERTIES.each do |property|
+      instance_variable_set("@#{property}", hash[property.underscore.to_sym])
+    end
   end
 
 end
