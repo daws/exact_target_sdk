@@ -1,8 +1,9 @@
 module ExactTargetSDK
 class TriggeredSend < APIObject
 
-  property 'TriggeredSendDefinition', true
+  array_property 'Attributes'
   array_property 'Subscribers'
+  property 'TriggeredSendDefinition', true
 
 end
 end

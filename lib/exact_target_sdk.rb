@@ -4,6 +4,7 @@ require 'exact_target_sdk/errors'
 module ExactTargetSDK
 
   autoload :APIObject, 'exact_target_sdk/api_object'
+  autoload :Attribute, 'exact_target_sdk/attribute'
   autoload :Client, 'exact_target_sdk/client'
   autoload :CreateResponse, 'exact_target_sdk/create_response'
   autoload :CreateResult, 'exact_target_sdk/create_result'
