@@ -1,5 +1,9 @@
 = ExactTarget SDK
 
+== Version 0.2.0
+* Adding Attribute object
+* Adding Attributes property to TriggeredSend
+
 == Version 0.1.0
 * Adding ErrorCode to CreateResult
 
