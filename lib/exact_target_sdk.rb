@@ -11,5 +11,6 @@ module ExactTargetSDK
   autoload :Subscriber, 'exact_target_sdk/subscriber'
   autoload :TriggeredSend, 'exact_target_sdk/triggered_send'
   autoload :TriggeredSendDefinition, 'exact_target_sdk/triggered_send_definition'
+  autoload :ContentArea, 'exact_target_sdk/create_contentarea'
 
 end
