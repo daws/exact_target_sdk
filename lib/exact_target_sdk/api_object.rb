@@ -69,6 +69,10 @@ class APIObject
       @properties || []
     end
 
+    def type_name
+      name.split('::').last
+    end
+
     private
 
     # Stores the given property name to be used at render time.
@@ -93,7 +97,7 @@ class APIObject
   #
   # May be overridden.
   def type_name
-    self.class.name.split('::').last
+    self.class.type_name
   end
 
   # By default, runs validation and executes #render_properties!.
@@ -120,7 +124,7 @@ class APIObject
 
   def render_property!(property_name, property_value, xml)
     if property_value.is_a?(APIObject)
-      xml.__send__(property_name) do
+      xml.__send__(property_name, { "xsi:type" => property_value.type_name } ) do
         property_value.render!(xml)
       end
     elsif property_value.is_a?(Array)

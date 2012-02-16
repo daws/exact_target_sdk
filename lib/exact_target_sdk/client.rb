@@ -64,6 +64,45 @@ class Client
     CreateResponse.new(response)
   end
 
+  # Invokes the Retrieve method.
+  #
+  # Note that this implementation abstracts away the useless RetrieveRequest
+  # sub-wrapper, and introduces a RequestResponse wrapper to contain the
+  # output parameters.
+  #
+  # Does not currently support requests that have too many results for one
+  # batch.
+  #
+  # Possible exceptions are:
+  #   HTTPError         if an HTTP error (such as a timeout) occurs
+  #   SOAPFault         if a SOAP fault occurs
+  #   Timeout           if there is a timeout waiting for the response
+  #   InvalidAPIObject  if any of the provided objects don't pass validation
+  #
+  # Returns a RetrieveResponse object.
+  def Retrieve(object_type_name, filter, *properties)
+    object_type_name = object_type_name.type_name if object_type_name.respond_to?(:type_name)
+    response = execute_request 'Retrieve' do |xml|
+      xml.RetrieveRequestMsg do
+        xml.RetrieveRequest do
+          xml.Options
+
+          xml.ObjectType object_type_name
+
+          properties.each do |property|
+            xml.Properties(property)
+          end
+
+          xml.Filter "xsi:type" => filter.type_name do
+            filter.render!(xml)
+          end
+        end
+      end
+    end
+
+    RetrieveResponse.new(response)
+  end
+
   # Invokes the Update method.
   #
   # The provided arguments should each be sub-classes of APIObject, and each

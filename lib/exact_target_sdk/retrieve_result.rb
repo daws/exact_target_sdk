@@ -1,4 +1,4 @@
 module ExactTargetSDK
-class CreateResult < Result
+class RetrieveResult < Result
 end
 end
