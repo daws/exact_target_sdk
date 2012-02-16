@@ -10,9 +10,9 @@ outlined in the guide linked above are used. This is done in an attempt to be
 as transparent as possible, so that the API may be used by referring only to
 the guide linked above.
 
-Note this SDK is currently very incomplete, allowing you only to create
-subscribers and trigger sends. The framework is in place, however, to very
-easily implement new objects by simply declaring their properties.
+Note this SDK is currently very incomplete, allowing you only to create and
+update subscribers and trigger sends. The framework is in place, however, to
+very easily implement new objects by simply declaring their properties.
 
 == Synopsis:
 
