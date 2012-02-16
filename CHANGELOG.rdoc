@@ -1,5 +1,8 @@
 = ExactTarget SDK
 
+== Version 0.3.0
+* Implementing Update method
+
 == Version 0.2.0
 * Adding Attribute object
 * Adding Attributes property to TriggeredSend
