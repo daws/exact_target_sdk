@@ -64,6 +64,38 @@ class Client
     CreateResponse.new(response)
   end
 
+  # Invokes the Update method.
+  #
+  # The provided arguments should each be sub-classes of APIObject, and each
+  # provided object will be updated in order.
+  #
+  # Possible exceptions are:
+  #   HTTPError         if an HTTP error (such as a timeout) occurs
+  #   SOAPFault         if a SOAP fault occurs
+  #   Timeout           if there is a timeout waiting for the response
+  #   InvalidAPIObject  if any of the provided objects don't pass validation
+  #
+  # Returns an UpdateResponse object.
+  def Update(*args)
+    # TODO: implement and accept UpdateOptions
+
+    api_objects = args
+
+    response = execute_request 'Update' do |xml|
+      xml.UpdateRequest do
+        xml.Options  # TODO: support UpdateOptions
+
+        api_objects.each do |api_object|
+          xml.Objects "xsi:type" => api_object.type_name do
+            api_object.render!(xml)
+          end
+        end
+      end
+    end
+
+    UpdateResponse.new(response)
+  end
+
   def logger
     config[:logger]
   end
