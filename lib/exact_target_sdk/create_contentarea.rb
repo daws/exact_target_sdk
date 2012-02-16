@@ -1,6 +1,7 @@
 module ExactTargetSDK
 
 	class ContentArea < APIObject
+		#Documentation here: http://docs.code.exacttarget.com/020_Web_Service_Guide/Objects/ContentArea
 		#Layout options are HTMLWrapped, RawText, SMS
 		property 'Layout', true
 		property 'Content', true
