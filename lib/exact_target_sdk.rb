@@ -7,6 +7,7 @@ module ExactTargetSDK
   autoload :Attribute, 'exact_target_sdk/attribute'
   autoload :Client, 'exact_target_sdk/client'
   autoload :ComplexFilterPart, 'exact_target_sdk/complex_filter_part'
+  autoload :ContentArea, 'exact_target_sdk/content_area'
   autoload :CreateResponse, 'exact_target_sdk/create_response'
   autoload :CreateResult, 'exact_target_sdk/create_result'
   autoload :FilterPart, 'exact_target_sdk/filter_part'
