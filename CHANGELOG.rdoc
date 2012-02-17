@@ -1,5 +1,8 @@
 = ExactTarget SDK
 
+== Version 0.6.0
+* Adding ContentArea object (from csalzman pull request)
+
 == Version 0.5.0
 * Adding EmailTypePreference to Subscriber
 
