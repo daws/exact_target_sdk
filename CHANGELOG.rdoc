@@ -1,5 +1,8 @@
 = ExactTarget SDK
 
+== Version 0.5.0
+* Adding EmailTypePreference to Subscriber
+
 == Version 0.4.0
 * Implementing Retrieve method
 * Implementing FilterPart objects
