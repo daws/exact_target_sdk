@@ -15,9 +15,12 @@ class Subscriber < APIObject
 
   property 'SubscriberKey', true
   property 'EmailAddress', true
+  property 'EmailTypePreference'
   array_property 'Attributes'
 
   before_validation :sync_subscriber_key_and_email_address
+
+  validates 'EmailTypePreference', :inclusion => { :allow_nil => true, :in => %w( HTML Text ) }
 
   private
 
