@@ -10,6 +10,8 @@ module ExactTargetSDK
   autoload :ContentArea, 'exact_target_sdk/content_area'
   autoload :CreateResponse, 'exact_target_sdk/create_response'
   autoload :CreateResult, 'exact_target_sdk/create_result'
+  autoload :DeleteResponse, 'exact_target_sdk/delete_response'
+  autoload :DeleteResult, 'exact_target_sdk/delete_result'
   autoload :FilterPart, 'exact_target_sdk/filter_part'
   autoload :Result, 'exact_target_sdk/result'
   autoload :RetrieveResponse, 'exact_target_sdk/retrieve_response'
