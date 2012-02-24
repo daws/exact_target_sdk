@@ -1,5 +1,8 @@
 = ExactTarget SDK
 
+== Version 0.7.0
+* Implemented Client#Delete method
+
 == Version 0.6.0
 * Adding ContentArea object (from csalzman pull request)
 
