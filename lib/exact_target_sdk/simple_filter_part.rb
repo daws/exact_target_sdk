@@ -1,8 +1,8 @@
 module ExactTargetSDK
 class SimpleFilterPart < FilterPart
 
-  property 'Property', true
-  property 'SimpleOperator', true
+  property 'Property', :required => true
+  property 'SimpleOperator', :required => true
   array_property 'Value'
 
 end

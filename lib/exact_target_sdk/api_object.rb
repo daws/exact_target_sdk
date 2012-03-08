@@ -1,4 +1,5 @@
 require 'active_model'
+require 'active_support/inflector'
 
 module ExactTargetSDK
 
@@ -18,7 +19,11 @@ class APIObject
     #
     # Provides a getter and setter for this property, keeping track of
     # whether or not it has been set and registering it for rendering.
-    def property(name, required = false)
+    def property(name, options = {})
+      options = {
+        :required => false
+      }.merge(options)
+
       name = name.to_s
       attr_reader name.to_sym
       class_eval <<-__EOF__
@@ -27,10 +32,10 @@ class APIObject
           @#{name} = value
         end
       __EOF__
-      if required
+      if options[:required]
         validates name.to_sym, :presence => true
       end
-      register_property!(name)
+      register_property!(name, options)
     end
 
     # Declares a property as an array of values.
@@ -41,9 +46,15 @@ class APIObject
     #
     # Note that once the property has been either read or written to, it
     # will be rendered.
-    def array_property(name)
+    def array_property(name, options = {})
       # TODO: type validation would be nice
       name = name.to_s
+
+      options = {
+        :nest_children => false,
+        :singular => name.singularize
+      }.merge(options)
+
       class_eval <<-__EOF__
         def #{name}
           @_set_#{name} = true
@@ -54,19 +65,22 @@ class APIObject
           @#{name} = value
         end
       __EOF__
-      register_property!(name)
+      register_property!(name, options)
     end
 
     # Same as #property, adding validation the the provided value is an
     # integer.
-    def int_property(name, required = false)
-      property(name, required)
+    def int_property(name, options = {})
+      options = {
+        :required => false
+      }.merge(options)
+      property(name, options)
       validates name.to_sym, :numericality => { :allow_nil => true, :only_integer => true }
     end
 
     # Returns an array of all registered properties.
     def properties
-      @properties || []
+      @properties || {}
     end
 
     def type_name
@@ -76,10 +90,9 @@ class APIObject
     private
 
     # Stores the given property name to be used at render time.
-    def register_property!(name)
-      @properties ||= []
-      @properties << name
-      @properties.uniq!
+    def register_property!(name, options = {})
+      @properties ||= {}
+      @properties[name] = options
     end
 
   end
@@ -115,21 +128,31 @@ class APIObject
   #
   # May be overridden.
   def render_properties!(xml)
-    self.class.properties.each do |property|
+    self.class.properties.each do |property, options|
       next unless instance_variable_get("@_set_#{property}")
       property_value = self.send(property)
-      render_property!(property, property_value, xml)
+      render_property!(property, property_value, xml, options)
     end
   end
 
-  def render_property!(property_name, property_value, xml)
+  def render_property_array!(property_name, array, xml)
+    array.each do |current|
+      render_property!(property_name, current, xml)
+    end
+  end
+
+  def render_property!(property_name, property_value, xml, options = {})
     if property_value.is_a?(APIObject)
       xml.__send__(property_name, { "xsi:type" => property_value.type_name } ) do
         property_value.render!(xml)
       end
     elsif property_value.is_a?(Array)
-      property_value.each do |current|
-        render_property!(property_name, current, xml)
+      if options[:nest_children]
+        xml.__send__(property_name) do
+          render_property_array!(options[:singular], property_value, xml)
+        end
+      else
+        render_property_array!(property_name, property_value, xml)
       end
     else
       xml.__send__(property_name, property_value.to_s)

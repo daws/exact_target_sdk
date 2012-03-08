@@ -13,8 +13,8 @@ module ExactTargetSDK
 # new email address.
 class Subscriber < APIObject
 
-  property 'SubscriberKey', true
-  property 'EmailAddress', true
+  property 'SubscriberKey', :required => true
+  property 'EmailAddress', :required => true
   property 'EmailTypePreference'
   array_property 'Attributes'
 

@@ -1,7 +1,7 @@
 module ExactTargetSDK
 class Attribute < APIObject
 
-  property 'Name', true
+  property 'Name', :required => true
   property 'Value'
 
 end

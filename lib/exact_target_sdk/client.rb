@@ -167,6 +167,42 @@ class Client
     DeleteResponse.new(response)
   end
 
+  # Invokes the Perform method.
+  #
+  # The provided arguments should each be definitions that are sub-classes
+  # of APIObject.
+  #
+  # Possible exceptions are:
+  #   HTTPError         if an HTTP error (such as a timeout) occurs
+  #   SOAPFault         if a SOAP fault occurs
+  #   Timeout           if there is a timeout waiting for the response
+  #   InvalidAPIObject  if any of the provided objects don't pass validation
+  #
+  # Returns a PerformResponse object.
+  def Perform(action, *args)
+    # TODO: implement and accept PerformOptions
+
+    definitions = args
+
+    response = execute_request 'Perform' do |xml|
+      xml.PerformRequestMsg do
+        xml.Action action
+
+        xml.Definitions do
+          definitions.each do |definition|
+            xml.Definition "xsi:type" => definition.type_name do
+              definition.render!(xml)
+            end
+          end
+        end
+
+        xml.Options  # TODO: support PerformOptions
+      end
+    end
+
+    PerformResponse.new(response)
+  end
+
   def logger
     config[:logger]
   end
