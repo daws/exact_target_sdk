@@ -84,7 +84,7 @@ describe APIObject do
     before(:each) do
       @api_object = Class.new(APIObject) do
         def self.name; 'SomeObject'; end
-        property 'Foo', true
+        property 'Foo', :required => true
       end
     end
 
