@@ -1,5 +1,15 @@
 = ExactTarget SDK
 
+== Version 0.8.0
+* Implemented APIProperty object
+* Implemented DataExtension object
+* Implemented DataExtensionField object
+* Implemented DataExtensionObject object
+* Implemented Perform method
+* Implemented PerformResponse object
+* Refactored property, array_property, and int_property to accept options
+* Allowed array_properties to be specified as nested
+
 == Version 0.7.0
 * Implemented Client#Delete method
 
