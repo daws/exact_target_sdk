@@ -18,6 +18,7 @@ module ExactTargetSDK
   autoload :DeleteResult, 'exact_target_sdk/delete_result'
   autoload :FilterPart, 'exact_target_sdk/filter_part'
   autoload :PerformResponse, 'exact_target_sdk/perform_response'
+  autoload :List, 'exact_target_sdk/list'
   autoload :Result, 'exact_target_sdk/result'
   autoload :RetrieveResponse, 'exact_target_sdk/retrieve_response'
   autoload :RetrieveResult, 'exact_target_sdk/retrieve_result'
