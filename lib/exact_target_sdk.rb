@@ -16,6 +16,7 @@ module ExactTargetSDK
   autoload :DataExtensionObject, 'exact_target_sdk/data_extension_object'
   autoload :DeleteResponse, 'exact_target_sdk/delete_response'
   autoload :DeleteResult, 'exact_target_sdk/delete_result'
+  autoload :Email, 'exact_target_sdk/email'
   autoload :FilterPart, 'exact_target_sdk/filter_part'
   autoload :PerformResponse, 'exact_target_sdk/perform_response'
   autoload :List, 'exact_target_sdk/list'
