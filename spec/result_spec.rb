@@ -22,4 +22,14 @@ describe Result do
 
   end
 
+  context 'a result initialized with id field ' do
+
+    subject { Result.new(:id => "42") }
+
+    it 'should respond to id with "42"' do
+      subject.id.should == "42"
+    end
+
+  end
+
 end
