@@ -106,8 +106,8 @@ class APIObject
 
   end
 
-  int_property "ID"
-  int_property 'ObjectID'
+  property "ID"
+  property 'ObjectID'
   property 'CustomerKey'
 
   # By default, any properties may be passed and set.
