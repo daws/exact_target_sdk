@@ -1,13 +1,13 @@
 module ExactTargetSDK
 class SenderProfile < APIObject
 
-  property 'Name', :required => true
+  property 'Name'
 
   # Specifies the default email message From Name. Deprecated for email send definitions and triggered send definitions.
-  property 'FromName', :required => true
+  property 'FromName'
 
   # Indicates From address associated with a object. Deprecated for email send definitions and triggered send definitions.
-  property 'FromAddress', :required => true
+  property 'FromAddress'
 
   # Indicates the To name to use on automatically forwarded email messages.
   property 'AutoForwardToName'

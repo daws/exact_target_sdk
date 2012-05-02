@@ -12,7 +12,9 @@ describe SendClassification do
     before(:each) do
       sp = ExactTargetSDK::SenderProfile.new 'ObjectID' => "some-object-id"
       dp = ExactTargetSDK::DeliveryProfile.new 'ObjectID' => "some-object-id"
-      @send_classification = ExactTargetSDK::SendClassification.new('Name' => 'Test Classification', 'SenderProfile' => sp, 'DeliveryProfile' => dp )
+      @send_classification = ExactTargetSDK::SendClassification.new('Name' => 'Test Classification',
+                                                                    'SenderProfile' => sp,
+                                                                    'DeliveryProfile' => dp )
       @send_classification.valid?
     end
 
