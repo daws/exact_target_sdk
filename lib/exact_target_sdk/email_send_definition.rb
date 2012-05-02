@@ -1,16 +1,16 @@
 module ExactTargetSDK
 class EmailSendDefinition < APIObject
 
-  property 'Name', :required => true
+  property 'Name'
 
   # Indicates the send classification to use as part of a send definition.
-  property 'SendClassification', :required => true
+  property 'SendClassification'
 
    # Indicates the subscriber list to use as part of an email send definition.
-  property 'SendDefinitionList', :required => true
+  property 'SendDefinitionList'
 
   # Default email address for object. Indicates if subscriber information can be used for email sends.
-  property 'Email', :required => true
+  property 'Email'
 
   # Defines an email address to which to send a test message as part
   # of an email send definition. Use the Test action when sending a
