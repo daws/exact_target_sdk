@@ -29,6 +29,7 @@ module ExactTargetSDK
   autoload :SendClassification, 'exact_target_sdk/send_classification'
   autoload :SendDefinitionList, 'exact_target_sdk/send_definition_list'
   autoload :SenderProfile, 'exact_target_sdk/sender_profile'
+  autoload :SimpleOperator, 'exact_target_sdk/simple_operator'
   autoload :Subscriber, 'exact_target_sdk/subscriber'
   autoload :TriggeredSend, 'exact_target_sdk/triggered_send'
   autoload :TriggeredSendDefinition, 'exact_target_sdk/triggered_send_definition'
