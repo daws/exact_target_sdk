@@ -203,6 +203,48 @@ class Client
     PerformResponse.new(response)
   end
 
+
+  # Invokes the Schedule method.
+    #
+    # The provided arguments should each be definitions that are sub-classes
+    # of APIObject.
+    #
+    # Possible exceptions are:
+    #   HTTPError         if an HTTP error (such as a timeout) occurs
+    #   SOAPFault         if a SOAP fault occurs
+    #   Timeout           if there is a timeout waiting for the response
+    #   InvalidAPIObject  if any of the provided objects don't pass validation
+    #
+    # Returns a ScheduleResponse object.
+    def Schedule(action, schedule, *args)
+      # TODO: implement and accept ScheduleOptions
+
+      interactions = args
+
+      response = execute_request 'Schedule' do |xml|
+        xml.ScheduleRequestMsg do
+          xml.Action action
+
+          xml.Schedule do
+            schedule.render!(xml)
+          end
+
+          xml.Interactions do
+            interactions.each do |interaction|
+              xml.Interaction "xsi:type" => interaction.type_name do
+                interaction.render!(xml)
+              end
+            end
+          end
+
+          xml.Options  # TODO: support ScheduleOptions
+        end
+      end
+
+      ScheduleResponse.new(response)
+    end
+
+
   def logger
     config[:logger]
   end
