@@ -78,9 +78,18 @@ class APIObject
       validates name.to_sym, :numericality => { :allow_nil => true, :only_integer => true }
     end
 
-    # Returns an array of all registered properties.
+    # Returns an array of all registered properties of current class.
     def properties
       @properties || {}
+    end
+
+    # Returns an array of all registered properties, including parent classes
+    def all_properties
+      properties = {}
+      self.ancestors.each do |klass|
+        properties.merge!(klass.properties) if klass.respond_to? :properties
+      end
+      properties
     end
 
     def type_name
@@ -96,6 +105,10 @@ class APIObject
     end
 
   end
+
+  property "ID"
+  property 'ObjectID'
+  property 'CustomerKey'
 
   # By default, any properties may be passed and set.
   #
@@ -128,7 +141,7 @@ class APIObject
   #
   # May be overridden.
   def render_properties!(xml)
-    self.class.properties.each do |property, options|
+    self.class.all_properties.each do |property, options|
       next unless instance_variable_get("@_set_#{property}")
       property_value = self.send(property)
       render_property!(property, property_value, xml, options)
