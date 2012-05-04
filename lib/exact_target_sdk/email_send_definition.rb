@@ -36,6 +36,10 @@ class EmailSendDefinition < APIObject
   # Subject for an email send
   property 'EmailSubject'
 
+  # Defines an email address to which to send a test message as part of an email send definition.
+  # Use the Test action when sending a test email to an email send definition.
+  property "TestEmailAddr"
+
 
 end
 end
