@@ -23,8 +23,6 @@ class Subscriber < APIObject
     self.EmailAddress = self.SubscriberKey if self.EmailAddress.nil?
   end
 
-  validates 'EmailTypePreference', :inclusion => { :allow_nil => true, :in => %w( HTML Text ) }
-
 end
 
 end
