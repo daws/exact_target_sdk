@@ -1,19 +1,23 @@
 require 'active_support/inflector'
 
 module ExactTargetSDK
-class Result
+  class Result
 
-  # If @result contains :id key, while trying result.id it calls
-  # Object#id alias method for Object#object_id instead calling method_missing
-  undef id if self.respond_to? :id
+    def id
+      @result[:id] || self.id
+    end
 
-  def initialize(hash)
-    @result = hash
+    def object_id
+      @result[:object_id] || self.object_id
+    end
+
+    def initialize(hash)
+      @result = hash
+    end
+
+    def method_missing(symbol, *args)
+      @result[symbol.to_s.underscore.to_sym]
+    end
+
   end
-
-  def method_missing(symbol, *args)
-    @result[symbol.to_s.underscore.to_sym]
-  end
-
-end
 end
