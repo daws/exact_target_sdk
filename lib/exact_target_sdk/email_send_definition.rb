@@ -7,7 +7,7 @@ class EmailSendDefinition < APIObject
   property 'SendClassification'
 
    # Indicates the subscriber list to use as part of an email send definition.
-  property 'SendDefinitionList'
+  array_property 'SendDefinitionList'
 
   # Default email address for object. Indicates if subscriber information can be used for email sends.
   property 'Email'
