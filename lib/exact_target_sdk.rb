@@ -32,6 +32,7 @@ module ExactTargetSDK
   autoload :Result, 'exact_target_sdk/result'
   autoload :RetrieveResponse, 'exact_target_sdk/retrieve_response'
   autoload :RetrieveResult, 'exact_target_sdk/retrieve_result'
+  autoload :SalutationSourceEnum, 'exact_target_sdk/salutation_source_enum'
   autoload :SimpleFilterPart, 'exact_target_sdk/simple_filter_part'
   autoload :Send, 'exact_target_sdk/send'
   autoload :ScheduleDefinition, 'exact_target_sdk/schedule_definition'
