@@ -16,6 +16,7 @@ module ExactTargetSDK
   autoload :DailyRecurrencePatternTypeEnum, 'exact_target_sdk/daily_recurrence_pattern_type_enum'
   autoload :DataExtension, 'exact_target_sdk/data_extension'
   autoload :DataExtensionField, 'exact_target_sdk/data_extension_field'
+  autoload :DataExtensionFieldType, 'exact_target_sdk/data_extension_field_type'
   autoload :DataExtensionObject, 'exact_target_sdk/data_extension_object'
   autoload :DeleteResponse, 'exact_target_sdk/delete_response'
   autoload :DeleteResult, 'exact_target_sdk/delete_result'

@@ -12,5 +12,8 @@ class SendDefinitionList < APIObject
   # Represents the ID of the sendable data extension used as part of a send.
   property 'CustomObjectID'
 
+  # Defines type of send definition list.
+  property 'SendDefinitionListType'
+
 end
 end
