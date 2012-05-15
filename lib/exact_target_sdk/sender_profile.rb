@@ -15,7 +15,8 @@ class SenderProfile < APIObject
   # Indicates the email address to use with automatically forwarded email messages.
   property 'AutoForwardToEmailAddress'
 
-
+  # Indicates whether a sender profile uses the default RMM rules for that account.
+  property 'UseDefaultRMMRules'
 
 end
 end
