@@ -8,7 +8,7 @@ class DeliveryProfile < APIObject
   property 'FooterSalutationSource'
 
   # Defines source of header salutation for a delivery profile or send definition.
-  property 'HeaderSalutationSource	'
+  property 'HeaderSalutationSource'
 
 end
 end
