@@ -40,6 +40,9 @@ class EmailSendDefinition < APIObject
   # Use the Test action when sending a test email to an email send definition.
   property "TestEmailAddr"
 
+  #Identifies the sender profile included in the send classificiation.
+  property 'SenderProfile'
+
 
 end
 end
