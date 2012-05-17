@@ -271,7 +271,6 @@ class Client
   #
   # Returns the raw savon response.
   def execute_request(method)
-    begin
       response = client.request(method) do
         soap.xml do |xml|
           xml.s :Envelope,
@@ -313,13 +312,10 @@ class Client
       end
 
       response
-    rescue ::Timeout::Error => e
-      timeout = ::ExactTargetSDK::TimeoutError.new("#{e.message}; open_timeout: #{config[:open_timeout]}; read_timeout: #{config[:read_timeout]}")
-      timeout.set_backtrace(e.backtrace)
-      raise timeout
-    rescue Exception => e
-      raise ::ExactTargetSDK::UnknownError, e
-    end
+  rescue ::Timeout::Error => e
+    timeout = ::ExactTargetSDK::TimeoutError.new("#{e.message}; open_timeout: #{config[:open_timeout]}; read_timeout: #{config[:read_timeout]}")
+    timeout.set_backtrace(e.backtrace)
+    raise timeout
   end
 
 end
