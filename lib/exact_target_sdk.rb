@@ -28,6 +28,7 @@ module ExactTargetSDK
   autoload :PerformResponse, 'exact_target_sdk/perform_response'
   autoload :PerformResult, 'exact_target_sdk/perform_result'
   autoload :List, 'exact_target_sdk/list'
+  autoload :LogicalOperators, 'exact_target_sdk/logical_operators'
   autoload :RecurrenceRangeTypeEnum, 'exact_target_sdk/recurrence_range_type_enum'
   autoload :RecurrenceTypeEnum, 'exact_target_sdk/recurrence_type_enum'
   autoload :Result, 'exact_target_sdk/result'
