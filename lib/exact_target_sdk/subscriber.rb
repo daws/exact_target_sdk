@@ -17,6 +17,7 @@ class Subscriber < APIObject
   property 'EmailAddress', :required => true
   property 'EmailTypePreference'
   array_property 'Attributes'
+  array_property 'Lists'
 
   before_validation do
     self.SubscriberKey = self.EmailAddress if self.SubscriberKey.nil?
