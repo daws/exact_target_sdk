@@ -2,7 +2,7 @@ module ExactTargetSDK
 class SubscriberList < APIObject
 
   # Defines the action to take for the specified object.
-  propery 'Action'
+  property 'Action'
 
   # List associated with an object.
   property 'List'
