@@ -27,6 +27,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'activemodel', '~> 3.0'
   s.add_dependency 'activesupport', '~> 3.0'
   s.add_dependency 'guid', '~> 0.1'
-  s.add_dependency 'savon', '~> 0.9'
+  s.add_dependency 'savon', '<= 0.9.9'
 
 end
