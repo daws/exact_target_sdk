@@ -26,6 +26,7 @@ class Client
 
     Savon.configure do |c|
       c.logger = ExactTargetSDK.config[:logger]
+      c.log = ExactTargetSDK.config[:log_enabled]
       c.raise_errors = false
     end
 
