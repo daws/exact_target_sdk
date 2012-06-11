@@ -1,10 +1,21 @@
+# http://docs.code.exacttarget.com/020_Web_Service_Guide/Objects/Email
 module ExactTargetSDK
 class Email < APIObject
 
-  property 'Name', :required => true
-  property 'Subject', :required => true
+  # Name of the object or property.
+  property 'Name'
+
+  # Contains subject area information for a message.
+  property 'Subject'
+
+  # Contains HTML body of an email message.
   property 'HTMLBody'
+
+  # Contains raw text body of a message.
   property 'TextBody'
+
+  # Indicates if email message was created via pasted HTML.
+  property 'IsHTMLPaste'
 
 end
 end
