@@ -25,7 +25,7 @@ class Client
     }.merge!(ExactTargetSDK.config).merge!(options)
 
     Savon.configure do |c|
-      c.logger = config[:logger]
+      c.logger = ExactTargetSDK.config[:logger]
       c.raise_errors = false
     end
 
@@ -246,7 +246,7 @@ class Client
 
 
   def logger
-    config[:logger]
+    ExactTargetSDK.config[:logger]
   end
 
   private
