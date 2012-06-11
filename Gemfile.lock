@@ -53,5 +53,5 @@ DEPENDENCIES
   activesupport (~> 3.0)
   guid (~> 0.1)
   rspec (~> 2.8)
-  savon (<= 0.9.9)
+  savon (~> 0.9)
   simple_gem
