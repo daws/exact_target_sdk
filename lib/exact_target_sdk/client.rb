@@ -255,11 +255,11 @@ class Client
   
   # Constructs and saves the savon client using provided config.
   def initialize_client!
-    self.client = ::Savon::Client.new do
-      wsdl.endpoint = config[:endpoint]
-      wsdl.namespace = config[:namespace]
-      http.open_timeout = config[:open_timeout]
-      http.read_timeout = config[:read_timeout]
+    self.client = ::Savon::Client.new do |wsdl, http|
+      wsdl.endpoint = ExactTargetSDK.config[:endpoint]
+      wsdl.namespace = ExactTargetSDK.config[:namespace]
+      http.open_timeout = ExactTargetSDK.config[:open_timeout]
+      http.read_timeout = ExactTargetSDK.config[:read_timeout]
     end
   end
 
@@ -274,7 +274,7 @@ class Client
       response = client.request(method) do
         soap.xml do |xml|
           xml.s :Envelope,
-              "xmlns" => config[:namespace],
+              "xmlns" => ExactTargetSDK.config[:namespace],
               "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema",
               "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
               "xmlns:s" => "http://www.w3.org/2003/05/soap-envelope",
@@ -287,11 +287,11 @@ class Client
               xml.a :ReplyTo do
                 xml.a :Address, "http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous"
               end
-              xml.a :To, config[:endpoint], "s:mustUnderstand" => "1"
+              xml.a :To, ExactTargetSDK.config[:endpoint], "s:mustUnderstand" => "1"
               xml.o :Security, "s:mustUnderstand" => "1" do
                 xml.o :UsernameToken, "o:Id" => "test" do
-                  xml.o :Username, config[:username]
-                  xml.o :Password, config[:password]
+                  xml.o :Username, ExactTargetSDK.config[:username]
+                  xml.o :Password, ExactTargetSDK.config[:password]
                 end
               end
             end
