@@ -49,13 +49,9 @@ module ExactTargetSDK
   private
 
   def self.default_logger
-    if defined?(::Rails)
-      ::Rails.logger
-    else
-      logger = ::Logger.new(STDERR)
-      logger.level = ::Logger::INFO
-      logger
-    end
+    logger = ::Logger.new(STDERR)
+    logger.level = ::Logger::INFO
+    logger
   end
 
 end
