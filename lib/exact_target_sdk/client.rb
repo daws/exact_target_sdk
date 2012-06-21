@@ -47,17 +47,23 @@ class Client
   def Create(*args)
     # TODO: implement and accept CreateOptions
 
-    api_objects = args
+    api_objects, options =  filter_options(args)
 
     response = execute_request 'Create' do |xml|
       xml.CreateRequest do
-        xml.Options  # TODO: support CreateOptions
 
         api_objects.each do |api_object|
           xml.Objects "xsi:type" => api_object.type_name do
             api_object.render!(xml)
           end
         end
+
+        options.each do |option|
+          xml.Options do
+            option.render!(xml)
+          end
+        end
+
       end
     end
 
@@ -80,12 +86,14 @@ class Client
   #   InvalidAPIObject  if any of the provided objects don't pass validation
   #
   # Returns a RetrieveResponse object.
-  def Retrieve(object_type_name, filter, *properties)
+  def Retrieve(object_type_name, filter, *args)
     object_type_name = object_type_name.type_name if object_type_name.respond_to?(:type_name)
+
+    properties, options =  filter_options(args)
+
     response = execute_request 'Retrieve' do |xml|
       xml.RetrieveRequestMsg do
         xml.RetrieveRequest do
-          xml.Options
 
           xml.ObjectType object_type_name
 
@@ -96,6 +104,13 @@ class Client
           xml.Filter "xsi:type" => filter.type_name do
             filter.render!(xml)
           end
+
+          options.each do |option|
+            xml.Options do
+              option.render!(xml)
+            end
+          end
+
         end
       end
     end
@@ -116,19 +131,24 @@ class Client
   #
   # Returns an UpdateResponse object.
   def Update(*args)
-    # TODO: implement and accept UpdateOptions
 
-    api_objects = args
+    api_objects, options =  filter_options(args)
 
     response = execute_request 'Update' do |xml|
       xml.UpdateRequest do
-        xml.Options  # TODO: support UpdateOptions
 
         api_objects.each do |api_object|
           xml.Objects "xsi:type" => api_object.type_name do
             api_object.render!(xml)
           end
         end
+
+        options.each do |option|
+          xml.Options do
+            option.render!(xml)
+          end
+        end
+
       end
     end
 
@@ -148,19 +168,23 @@ class Client
   #
   # Returns a DeleteResponse object.
   def Delete(*args)
-    # TODO: implement and accept DeleteOptions
 
-    api_objects = args
+    api_objects, options =  filter_options(args)
 
     response = execute_request 'Delete' do |xml|
       xml.DeleteRequest do
-        xml.Options  # TODO: support DeleteOptions
-
         api_objects.each do |api_object|
           xml.Objects "xsi:type" => api_object.type_name do
             api_object.render!(xml)
           end
         end
+
+        options.each do |option|
+          xml.Options do
+            option.render!(xml)
+          end
+        end
+
       end
     end
 
@@ -180,9 +204,7 @@ class Client
   #
   # Returns a PerformResponse object.
   def Perform(action, *args)
-    # TODO: implement and accept PerformOptions
-
-    definitions = args
+    definitions, options = filter_options(args)
 
     response = execute_request 'Perform' do |xml|
       xml.PerformRequestMsg do
@@ -194,9 +216,13 @@ class Client
               definition.render!(xml)
             end
           end
-        end
+       end
 
-        xml.Options  # TODO: support PerformOptions
+        options.each do |option|
+          xml.Options do
+            option.render!(xml)
+          end
+        end
       end
     end
 
@@ -217,9 +243,8 @@ class Client
     #
     # Returns a ScheduleResponse object.
     def Schedule(action, schedule, *args)
-      # TODO: implement and accept ScheduleOptions
 
-      interactions = args
+      interactions, options = filter_options(args)
 
       response = execute_request 'Schedule' do |xml|
         xml.ScheduleRequestMsg do
@@ -237,7 +262,12 @@ class Client
             end
           end
 
-          xml.Options  # TODO: support ScheduleOptions
+          options.each do |option|
+            xml.Options do
+              option.render!(xml)
+            end
+          end
+
         end
       end
 
@@ -252,7 +282,7 @@ class Client
   private
 
   attr_accessor :config, :client
-  
+
   # Constructs and saves the savon client using provided config.
   def initialize_client!
     self.client = ::Savon::Client.new do |wsdl, http|
@@ -316,6 +346,19 @@ class Client
     timeout = ::ExactTargetSDK::TimeoutError.new("#{e.message}; open_timeout: #{config[:open_timeout]}; read_timeout: #{config[:read_timeout]}")
     timeout.set_backtrace(e.backtrace)
     raise timeout
+  end
+
+  def filter_options(args)
+    options = find_options(args)
+    options.each{|opt| args.delete(opt)}
+    [args,options]
+  end
+
+
+  def find_options(args)
+    options = []
+    args.each { |arg| options << arg if arg.is_a? Options }
+    options
   end
 
 end
