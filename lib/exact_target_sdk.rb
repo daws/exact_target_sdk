@@ -40,6 +40,7 @@ module ExactTargetSDK
   autoload :RecurrenceRangeTypeEnum, 'exact_target_sdk/recurrence_range_type_enum'
   autoload :RecurrenceTypeEnum, 'exact_target_sdk/recurrence_type_enum'
   autoload :Result, 'exact_target_sdk/result'
+  autoload :ResultMessage, 'exact_target_sdk/result_message'
   autoload :RespondWhen, 'exact_target_sdk/respond_when'
   autoload :RetrieveResponse, 'exact_target_sdk/retrieve_response'
   autoload :RetrieveResult, 'exact_target_sdk/retrieve_result'
