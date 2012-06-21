@@ -8,7 +8,7 @@ class ContentValidation < APIObject
   property 'ValidationAction'
 
   # Indicates subscribers associated with an object.
-  array_property 'Subscribers'
+  array_property 'Subscribers', :nest_children => true
 
 end
 end
