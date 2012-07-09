@@ -3,10 +3,10 @@ module ExactTargetSDK
 class Email < APIObject
 
   # Name of the object or property.
-  property 'Name'
+  property 'Name', :required => true
 
   # Contains subject area information for a message.
-  property 'Subject'
+  property 'Subject', :required => true
 
   # Contains HTML body of an email message.
   property 'HTMLBody'

@@ -1,7 +1,8 @@
 module ExactTargetSDK
 class DeliveryProfile < APIObject
 
-  property 'Name'
+  property 'Name', :required => true
+
   property 'SourceAddressType'
 
   # Defines source of a footer salutation to use as part of a delivery profile or send definition (Default, Content Library, or None)

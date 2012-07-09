@@ -1,7 +1,7 @@
 module ExactTargetSDK
 class EmailSendDefinition < APIObject
 
-  property 'Name'
+  property 'Name', :required => true
 
   # Indicates the send classification to use as part of a send definition.
   property 'SendClassification'

@@ -1,8 +1,11 @@
 module ExactTargetSDK
 class SendClassification < APIObject
 
-  property 'Name'
-  property 'SenderProfile'
-  property 'DeliveryProfile'
+  property 'Name', :required => true
+
+  property 'SenderProfile', :required => true
+
+  property 'DeliveryProfile', :required => true
+
 end
 end
