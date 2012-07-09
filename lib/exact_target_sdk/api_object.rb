@@ -6,7 +6,7 @@ module ExactTargetSDK
 # each object easy.
   class APIObject < Base
 
-    property "ID"
+    property 'ID'
     property 'ObjectID'
     property 'CustomerKey'
 

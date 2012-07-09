@@ -4,6 +4,10 @@ require 'active_support/inflector'
 module ExactTargetSDK
 
   class Base
+    # Properties that can be used as object id to perform update, delete,
+    # perform and schedule actions
+    ID_PROPERTIES = %w(ID ObjectID CustomerKey)
+
     include ::ActiveModel::Validations
     include ::ActiveModel::Validations::Callbacks
 
@@ -28,7 +32,7 @@ module ExactTargetSDK
            end
         __EOF__
         if options[:required]
-          validates name.to_sym, :presence => true
+          validates name.to_sym, :presence => true, :if => :new_record?
         end
         register_property!(name, options)
       end
@@ -70,7 +74,7 @@ module ExactTargetSDK
             :required => false
         }.merge(options)
         property(name, options)
-        validates name.to_sym, :numericality => {:allow_nil => true, :only_integer => true}
+        validates name.to_sym, :numericality => {:allow_nil => true, :only_integer => true}, :if => :new_record?
       end
 
       # Returns an array of all registered properties of current class.
@@ -163,6 +167,10 @@ module ExactTargetSDK
       end
     end
 
+    def new_record?
+      ID_PROPERTIES.each {|property| return false if instance_variable_get("@_set_#{property}")}
+      true
+    end
 
   end
 
