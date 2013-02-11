@@ -11,6 +11,7 @@ module ExactTargetSDK
 # outlined in the guide linked above are used. This is done in an attempt to be
 # as transparent as possible, so that the API may be used by referring only to
 # the guide linked above.
+
 class Client
 
   # Constructs a client.
@@ -21,13 +22,7 @@ class Client
   # Since ExactTarget's API is stateless, constructing a client object will not
   # make any remote calls.
   def initialize(options = {})
-    self.config = {
-    }.merge!(ExactTargetSDK.config).merge!(options)
-
-    Savon.configure do |c|
-      c.logger = ExactTargetSDK.config[:logger]
-      c.raise_errors = false
-    end
+    self.config = {}.merge!(ExactTargetSDK.config).merge!(options)
 
     initialize_client!
   end
@@ -285,12 +280,14 @@ class Client
 
   # Constructs and saves the savon client using provided config.
   def initialize_client!
-    self.client = ::Savon::Client.new do |wsdl, http|
-      wsdl.endpoint = ExactTargetSDK.config[:endpoint]
-      wsdl.namespace = ExactTargetSDK.config[:namespace]
-      http.open_timeout = ExactTargetSDK.config[:open_timeout]
-      http.read_timeout = ExactTargetSDK.config[:read_timeout]
-    end
+    self.client = ::Savon::Client.new({
+      wsdl:          ExactTargetSDK.config[:endpoint],
+      namespace:     ExactTargetSDK.config[:namespace],
+      logger:        ExactTargetSDK.config[:logger],
+      raise_errors:  false,
+      open_timeout:  ExactTargetSDK.config[:open_timeout],
+      read_timeout:  ExactTargetSDK.config[:read_timeout]
+    })
   end
 
   # Builds the SOAP request for the given method, delegating body
