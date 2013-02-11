@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.email = %q{daws23@gmail.com}
   s.homepage = %q{https://github.com/daws/exact_target_sdk}
   s.require_paths = [ 'lib' ]
-  
+
   # documentation
   s.has_rdoc = true
   s.extra_rdoc_files = %w( README.rdoc CHANGELOG.rdoc LICENSE.txt )
@@ -27,6 +27,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'activemodel', '~> 3.0'
   s.add_dependency 'activesupport', '~> 3.0'
   s.add_dependency 'guid', '~> 0.1'
-  s.add_dependency 'savon', '~> 0.9'
+  s.add_dependency 'savon', '~> 2.1.0'
 
 end

@@ -11,6 +11,7 @@ module ExactTargetSDK
 # outlined in the guide linked above are used. This is done in an attempt to be
 # as transparent as possible, so that the API may be used by referring only to
 # the guide linked above.
+
 class Client
 
   # Constructs a client.
@@ -21,13 +22,7 @@ class Client
   # Since ExactTarget's API is stateless, constructing a client object will not
   # make any remote calls.
   def initialize(options = {})
-    self.config = {
-    }.merge!(ExactTargetSDK.config).merge!(options)
-
-    Savon.configure do |c|
-      c.logger = config[:logger]
-      c.raise_errors = false
-    end
+    self.config = {}.merge!(ExactTargetSDK.config).merge!(options)
 
     initialize_client!
   end
@@ -47,17 +42,23 @@ class Client
   def Create(*args)
     # TODO: implement and accept CreateOptions
 
-    api_objects = args
+    api_objects, options =  filter_options(args)
 
     response = execute_request 'Create' do |xml|
       xml.CreateRequest do
-        xml.Options  # TODO: support CreateOptions
 
         api_objects.each do |api_object|
           xml.Objects "xsi:type" => api_object.type_name do
             api_object.render!(xml)
           end
         end
+
+        options.each do |option|
+          xml.Options do
+            option.render!(xml)
+          end
+        end
+
       end
     end
 
@@ -80,12 +81,14 @@ class Client
   #   InvalidAPIObject  if any of the provided objects don't pass validation
   #
   # Returns a RetrieveResponse object.
-  def Retrieve(object_type_name, filter, *properties)
+  def Retrieve(object_type_name, filter, *args)
     object_type_name = object_type_name.type_name if object_type_name.respond_to?(:type_name)
+
+    properties, options =  filter_options(args)
+
     response = execute_request 'Retrieve' do |xml|
       xml.RetrieveRequestMsg do
         xml.RetrieveRequest do
-          xml.Options
 
           xml.ObjectType object_type_name
 
@@ -96,6 +99,13 @@ class Client
           xml.Filter "xsi:type" => filter.type_name do
             filter.render!(xml)
           end
+
+          options.each do |option|
+            xml.Options do
+              option.render!(xml)
+            end
+          end
+
         end
       end
     end
@@ -116,19 +126,24 @@ class Client
   #
   # Returns an UpdateResponse object.
   def Update(*args)
-    # TODO: implement and accept UpdateOptions
 
-    api_objects = args
+    api_objects, options =  filter_options(args)
 
     response = execute_request 'Update' do |xml|
       xml.UpdateRequest do
-        xml.Options  # TODO: support UpdateOptions
 
         api_objects.each do |api_object|
           xml.Objects "xsi:type" => api_object.type_name do
             api_object.render!(xml)
           end
         end
+
+        options.each do |option|
+          xml.Options do
+            option.render!(xml)
+          end
+        end
+
       end
     end
 
@@ -148,19 +163,23 @@ class Client
   #
   # Returns a DeleteResponse object.
   def Delete(*args)
-    # TODO: implement and accept DeleteOptions
 
-    api_objects = args
+    api_objects, options =  filter_options(args)
 
     response = execute_request 'Delete' do |xml|
       xml.DeleteRequest do
-        xml.Options  # TODO: support DeleteOptions
-
         api_objects.each do |api_object|
           xml.Objects "xsi:type" => api_object.type_name do
             api_object.render!(xml)
           end
         end
+
+        options.each do |option|
+          xml.Options do
+            option.render!(xml)
+          end
+        end
+
       end
     end
 
@@ -180,9 +199,7 @@ class Client
   #
   # Returns a PerformResponse object.
   def Perform(action, *args)
-    # TODO: implement and accept PerformOptions
-
-    definitions = args
+    definitions, options = filter_options(args)
 
     response = execute_request 'Perform' do |xml|
       xml.PerformRequestMsg do
@@ -194,31 +211,83 @@ class Client
               definition.render!(xml)
             end
           end
-        end
+       end
 
-        xml.Options  # TODO: support PerformOptions
+        options.each do |option|
+          xml.Options do
+            option.render!(xml)
+          end
+        end
       end
     end
 
     PerformResponse.new(response)
   end
 
+
+  # Invokes the Schedule method.
+    #
+    # The provided arguments should each be definitions that are sub-classes
+    # of APIObject.
+    #
+    # Possible exceptions are:
+    #   HTTPError         if an HTTP error (such as a timeout) occurs
+    #   SOAPFault         if a SOAP fault occurs
+    #   Timeout           if there is a timeout waiting for the response
+    #   InvalidAPIObject  if any of the provided objects don't pass validation
+    #
+    # Returns a ScheduleResponse object.
+    def Schedule(action, schedule, *args)
+
+      interactions, options = filter_options(args)
+
+      response = execute_request 'Schedule' do |xml|
+        xml.ScheduleRequestMsg do
+          xml.Action action
+
+          xml.Schedule do
+            schedule.render!(xml)
+          end
+
+          xml.Interactions do
+            interactions.each do |interaction|
+              xml.Interaction "xsi:type" => interaction.type_name do
+                interaction.render!(xml)
+              end
+            end
+          end
+
+          options.each do |option|
+            xml.Options do
+              option.render!(xml)
+            end
+          end
+
+        end
+      end
+
+      ScheduleResponse.new(response)
+    end
+
+
   def logger
-    config[:logger]
+    ExactTargetSDK.config[:logger]
   end
 
   private
 
   attr_accessor :config, :client
-  
+
   # Constructs and saves the savon client using provided config.
   def initialize_client!
-    self.client = ::Savon::Client.new do
-      wsdl.endpoint = config[:endpoint]
-      wsdl.namespace = config[:namespace]
-      http.open_timeout = config[:open_timeout]
-      http.read_timeout = config[:read_timeout]
-    end
+    self.client = ::Savon::Client.new({
+      wsdl:          ExactTargetSDK.config[:endpoint],
+      namespace:     ExactTargetSDK.config[:namespace],
+      logger:        ExactTargetSDK.config[:logger],
+      raise_errors:  false,
+      open_timeout:  ExactTargetSDK.config[:open_timeout],
+      read_timeout:  ExactTargetSDK.config[:read_timeout]
+    })
   end
 
   # Builds the SOAP request for the given method, delegating body
@@ -229,11 +298,10 @@ class Client
   #
   # Returns the raw savon response.
   def execute_request(method)
-    begin
       response = client.request(method) do
         soap.xml do |xml|
           xml.s :Envelope,
-              "xmlns" => config[:namespace],
+              "xmlns" => ExactTargetSDK.config[:namespace],
               "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema",
               "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
               "xmlns:s" => "http://www.w3.org/2003/05/soap-envelope",
@@ -246,11 +314,11 @@ class Client
               xml.a :ReplyTo do
                 xml.a :Address, "http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous"
               end
-              xml.a :To, config[:endpoint], "s:mustUnderstand" => "1"
+              xml.a :To, ExactTargetSDK.config[:endpoint], "s:mustUnderstand" => "1"
               xml.o :Security, "s:mustUnderstand" => "1" do
                 xml.o :UsernameToken, "o:Id" => "test" do
-                  xml.o :Username, config[:username]
-                  xml.o :Password, config[:password]
+                  xml.o :Username, ExactTargetSDK.config[:username]
+                  xml.o :Password, ExactTargetSDK.config[:password]
                 end
               end
             end
@@ -271,13 +339,23 @@ class Client
       end
 
       response
-    rescue ::Timeout::Error => e
-      timeout = ::ExactTargetSDK::TimeoutError.new("#{e.message}; open_timeout: #{config[:open_timeout]}; read_timeout: #{config[:read_timeout]}")
-      timeout.set_backtrace(e.backtrace)
-      raise timeout
-    rescue Exception => e
-      raise ::ExactTargetSDK::UnknownError, e
-    end
+  rescue ::Timeout::Error => e
+    timeout = ::ExactTargetSDK::TimeoutError.new("#{e.message}; open_timeout: #{config[:open_timeout]}; read_timeout: #{config[:read_timeout]}")
+    timeout.set_backtrace(e.backtrace)
+    raise timeout
+  end
+
+  def filter_options(args)
+    options = find_options(args)
+    options.each{|opt| args.delete(opt)}
+    [args,options]
+  end
+
+
+  def find_options(args)
+    options = []
+    args.each { |arg| options << arg if arg.is_a? Options }
+    options
   end
 
 end

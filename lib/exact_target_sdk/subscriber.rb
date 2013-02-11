@@ -17,14 +17,9 @@ class Subscriber < APIObject
   property 'EmailAddress', :required => true
   property 'EmailTypePreference'
   array_property 'Attributes'
+  array_property 'Lists'
 
-  before_validation :sync_subscriber_key_and_email_address
-
-  validates 'EmailTypePreference', :inclusion => { :allow_nil => true, :in => %w( HTML Text ) }
-
-  private
-
-  def sync_subscriber_key_and_email_address
+  before_validation do
     self.SubscriberKey = self.EmailAddress if self.SubscriberKey.nil?
     self.EmailAddress = self.SubscriberKey if self.EmailAddress.nil?
   end

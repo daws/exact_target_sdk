@@ -1,10 +1,10 @@
 module ExactTargetSDK
-class PerformResponse
+class ScheduleResponse
 
-  attr_reader :OverallStatus, :OverallStatusMessage, :RequestID, :Results
+  attr_reader :OverallStatus, :OverallStatusMessage, :RequestID,  :Results
 
   def initialize(response)
-    response = response.to_hash[:perform_response_msg]
+    response = response.to_hash[:schedule_response_msg]
     @OverallStatus = response[:overall_status]
     @OverallStatusMessage = response[:overall_status_message]
     @RequestID = response[:request_id]
@@ -18,7 +18,7 @@ class PerformResponse
                 []
               end
     results.each do |result|
-      @Results << PerformResult.new(result)
+      @Results << ScheduleResult.new(result)
     end
   end
 
