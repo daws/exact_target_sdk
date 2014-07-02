@@ -1,5 +1,8 @@
 = ExactTarget SDK
 
+== Version 1.0.0
+* Update Savon to 2.4.x
+
 == Version 0.8.0
 * Implemented APIProperty object
 * Implemented DataExtension object
