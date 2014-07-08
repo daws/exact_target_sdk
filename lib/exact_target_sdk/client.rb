@@ -24,11 +24,6 @@ class Client
     self.config = {
     }.merge!(ExactTargetSDK.config).merge!(options)
 
-    Savon.configure do |c|
-      c.logger = config[:logger]
-      c.raise_errors = false
-    end
-
     initialize_client!
   end
 
@@ -213,12 +208,15 @@ class Client
   
   # Constructs and saves the savon client using provided config.
   def initialize_client!
-    self.client = ::Savon::Client.new do
-      wsdl.endpoint = config[:endpoint]
-      wsdl.namespace = config[:namespace]
-      http.open_timeout = config[:open_timeout]
-      http.read_timeout = config[:read_timeout]
-    end
+    self.client = ::Savon.client(
+      :endpoint => config[:endpoint],
+      :namespace => config[:namespace],
+      :open_timeout => config[:open_timeout],
+      :read_timeout => config[:read_timeout],
+      :raise_errors => false,
+      :logger => config[:logger],
+      :log => config[:logger] && config[:logger].level == Logger::DEBUG
+    )
   end
 
   # Builds the SOAP request for the given method, delegating body
@@ -230,8 +228,10 @@ class Client
   # Returns the raw savon response.
   def execute_request(method)
     begin
-      response = client.request(method) do
-        soap.xml do |xml|
+      response = client.call(method) do |locals|
+        xml = Builder::XmlMarkup.new
+        xml.instruct!(:xml, :encoding => 'UTF-8')
+        result = begin
           xml.s :Envelope,
               "xmlns" => config[:namespace],
               "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema",
@@ -260,7 +260,10 @@ class Client
             end
           end
         end
+
+        locals.xml result
       end
+
 
       if response.http_error?
         raise HTTPError, response.http_error.to_s
